@@ -1,3 +1,15 @@
+
+import com.fazecast.jSerialComm.SerialPort;
+import java.util.Scanner;
+import javax.swing.BoxLayout;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,15 +20,26 @@
  *
  * @author miguel
  */
-public class aq_dados_gui extends javax.swing.JPanel {
+
+
+
+
+public class aq_dados_gui extends javax.swing.JFrame{
+    
+    static SerialPort port;
+    static XYSeries series = new XYSeries("Sensor 10cm");
+    static XYSeriesCollection dataset = new XYSeriesCollection(series);
+    static int x = 0;
+    
+    int number=0;
 
     /**
-     * Creates new form aq_dados_gui
+     * Creates new form aq
      */
     public aq_dados_gui() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,31 +49,20 @@ public class aq_dados_gui extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmbbox_velocidade = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        cmbbox_portaserial = new javax.swing.JComboBox<>();
-        txtfield_configurações = new javax.swing.JTextField();
-        btn_desconectar = new javax.swing.JButton();
+        cmbbox_ports = new javax.swing.JComboBox<>();
         btn_conectar = new javax.swing.JButton();
-        btn_sair = new javax.swing.JButton();
+        cmbbox_baudrate = new javax.swing.JComboBox<>();
+        jPanel_chart = new javax.swing.JPanel();
 
-        cmbbox_velocidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Bancada para Controle de Fluxo de Calor");
 
-        jLabel2.setText("Selecione a porta serial");
-
-        jLabel1.setText("Selecione a velocidade de conexão");
-
-        cmbbox_portaserial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbbox_portaserial.addActionListener(new java.awt.event.ActionListener() {
+        cmbbox_ports.setModel(new javax.swing.DefaultComboBoxModel<>());
+        cmbbox_ports.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbbox_portaserialActionPerformed(evt);
+                cmbbox_portsActionPerformed(evt);
             }
         });
-
-        txtfield_configurações.setEditable(false);
-
-        btn_desconectar.setText("Desconectar");
 
         btn_conectar.setText("Conectar");
         btn_conectar.addActionListener(new java.awt.event.ActionListener() {
@@ -59,78 +71,141 @@ public class aq_dados_gui extends javax.swing.JPanel {
             }
         });
 
-        btn_sair.setText("Sair");
-        btn_sair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_sairActionPerformed(evt);
-            }
-        });
+        cmbbox_baudrate.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "9600", "14400", "19200", "28800", "38400", "57600", "115200" }));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        jPanel_chart.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel_chart.setLayout(new javax.swing.BoxLayout(jPanel_chart, javax.swing.BoxLayout.LINE_AXIS));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmbbox_velocidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cmbbox_portaserial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtfield_configurações)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_desconectar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_conectar))
-                    .addComponent(btn_sair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(894, 894, 894))
+                    .addComponent(btn_conectar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbbox_baudrate, 0, 181, Short.MAX_VALUE)
+                    .addComponent(cmbbox_ports, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(73, 73, 73)
+                .addComponent(jPanel_chart, javax.swing.GroupLayout.DEFAULT_SIZE, 864, Short.MAX_VALUE)
+                .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_conectar, cmbbox_baudrate, cmbbox_ports});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbbox_portaserial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(jLabel1)
-                .addGap(1, 1, 1)
-                .addComponent(cmbbox_velocidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtfield_configurações, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_desconectar)
-                    .addComponent(btn_conectar))
-                .addGap(48, 48, 48)
-                .addComponent(btn_sair)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGap(80, 80, 80)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel_chart, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cmbbox_ports, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(cmbbox_baudrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_conectar)))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cmbbox_portsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbbox_portsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbbox_portsActionPerformed
 
     private void btn_conectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_conectarActionPerformed
         // TODO add your handling code here:
+        
+        if(btn_conectar.getText().equals("Conectar")){
+            System.out.println("Botão Ok");
+            port = SerialPort.getCommPort(cmbbox_ports.getSelectedItem().toString());
+            port.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
+            port.setBaudRate(Integer.parseInt(cmbbox_baudrate.getSelectedItem().toString()));
+            if(port.openPort()){
+                btn_conectar.setText("Desconectar");
+                cmbbox_ports.setEnabled(false);         
+            
+            }
+            
+            Thread thread =new Thread(){
+            @Override
+            
+            public void run(){
+                Scanner scanner = new Scanner(port.getInputStream());
+				while(scanner.hasNext()) {
+					try {
+						String line = scanner.nextLine();
+						int number = Integer.parseInt(line);
+						series.add(x++,number);
+                                                System.out.println(number);
+                                                
+                                                
+						
+						} catch(Exception e) {}
+								}
+                                scanner.close();
+                                
+                        }
+                        
+                    
+                
+            
+            
+                   
+            };
+            thread.start();
+        }else{
+            port.closePort();
+            cmbbox_ports.setEnabled(true);
+            btn_conectar.setText("Conectar");
+            x=0;
+            
+        
+        }
+        
     }//GEN-LAST:event_btn_conectarActionPerformed
-
-    private void btn_sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sairActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_sairActionPerformed
-
-    private void cmbbox_portaserialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbbox_portaserialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbbox_portaserialActionPerformed
-
+   
+    /**
+     * @param args the command line arguments
+     */
+            
+    public static void main(String args[]) {
+                
+                new aq_dados_gui().setVisible(true);
+                
+                Lista_Serial lista_serial=new Lista_Serial();
+                SerialPort[] ports_names=lista_serial.lista_serial();
+                int ports_num=lista_serial.lista_serial().length;
+                
+                for(int i=0; i<ports_num;i++){
+                    
+                cmbbox_ports.addItem(ports_names[i].getSystemPortName());
+                
+                }
+                
+                Gerar_Grafico grafico = new Gerar_Grafico();
+                
+                grafico.grafico(jPanel_chart);
+                
+                
+                
+                
+                
+                
+                
+                
+        
+                
+        /* Create and display the form */
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_conectar;
-    private javax.swing.JButton btn_desconectar;
-    private javax.swing.JButton btn_sair;
-    private javax.swing.JComboBox<String> cmbbox_portaserial;
-    private javax.swing.JComboBox<String> cmbbox_velocidade;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField txtfield_configurações;
+    private javax.swing.JComboBox<String> cmbbox_baudrate;
+    private static javax.swing.JComboBox<String> cmbbox_ports;
+    private static javax.swing.JPanel jPanel_chart;
     // End of variables declaration//GEN-END:variables
 }
