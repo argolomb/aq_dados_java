@@ -119,13 +119,16 @@ public class aq_dados_gui extends javax.swing.JFrame{
         // TODO add your handling code here:
         
         if(btn_conectar.getText().equals("Conectar")){
+            //DEBUG
             System.out.println("Botão Ok");
+            //DEBUG
             port = SerialPort.getCommPort(cmbbox_ports.getSelectedItem().toString());
             port.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
             port.setBaudRate(Integer.parseInt(cmbbox_baudrate.getSelectedItem().toString()));
             if(port.openPort()){
                 btn_conectar.setText("Desconectar");
-                cmbbox_ports.setEnabled(false);         
+                cmbbox_ports.setEnabled(false);
+                cmbbox_baudrate.setEnabled(false);
             
             }
             
@@ -148,17 +151,14 @@ public class aq_dados_gui extends javax.swing.JFrame{
                                 scanner.close();
                                 
                         }
-                        
-                    
-                
-            
-            
+       
                    
             };
             thread.start();
         }else{
             port.closePort();
             cmbbox_ports.setEnabled(true);
+            cmbbox_baudrate.setEnabled(true);
             btn_conectar.setText("Conectar");
             x=0;
             
