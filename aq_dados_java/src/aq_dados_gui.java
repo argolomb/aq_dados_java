@@ -176,23 +176,16 @@ public class aq_dados_gui extends javax.swing.JFrame{
                                                     series35.add(jsonSensor35.getBigInteger("time"), jsonSensor35.getInt("value"));
                                                     */
                                                     
-                                                    series15.add(x++, jsonSensor15.getInt("value"));
+                                                    series15.add(x, jsonSensor15.getInt("value"));
                                                     series25.add(x, jsonSensor25.getInt("value"));
-                                                    series35.add(x, jsonSensor35.getInt("value"));
+                                                    series35.add(x++, jsonSensor35.getInt("value"));
                                                     
-                                                }catch(JSONException e){
-                                                    e.printStackTrace();                                                
-                                                }
+                                                    }catch(JSONException e){
+                                                        e.printStackTrace();                                                
+                                                     }
                                                 
-                                                
-                                                
-                                                //JSONObject obj = new JSONObject(line);
-                                                
-                                                //System.out.println(""+obj.getString("sensor"));
-                                                
-						
-						} catch(Exception e) {}
-								}
+                                             } catch(Exception e) {}
+				}
                                 scanner.close();
                                 
                         }
@@ -205,6 +198,10 @@ public class aq_dados_gui extends javax.swing.JFrame{
             cmbbox_ports.setEnabled(true);
             cmbbox_baudrate.setEnabled(true);
             btn_conectar.setText("Conectar");
+            /*APAGA O GRAFICO */
+            series15.clear();
+            series25.clear();
+            series35.clear();
             x=0;
             
         

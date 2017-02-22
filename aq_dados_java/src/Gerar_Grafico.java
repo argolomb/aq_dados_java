@@ -23,7 +23,7 @@ public class Gerar_Grafico extends JPanel{
                 //XYSeries series = new XYSeries("Sensor 15cm");
                 //XYSeriesCollection dataset = new XYSeriesCollection(series);
                 
-                JFreeChart chart = ChartFactory.createXYLineChart("Bancada Fluxo de Calor","Time (segundos)", "Temperatura", aq_dados_gui.dataset, PlotOrientation.VERTICAL,false,true,false);
+                JFreeChart chart = ChartFactory.createXYLineChart("Bancada Fluxo de Calor","Time (segundos)", "Temperatura", aq_dados_gui.dataset, PlotOrientation.VERTICAL,true,true,false);
                 
                 jPanel_chart.add(new ChartPanel(chart));
                 jPanel_chart.repaint();
