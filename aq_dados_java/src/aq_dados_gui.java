@@ -1,12 +1,15 @@
 
 import com.fazecast.jSerialComm.SerialPort;
 import java.util.Scanner;
-import javax.swing.BoxLayout;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.json.*;
+
+
+
 
 
 
@@ -27,8 +30,14 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class aq_dados_gui extends javax.swing.JFrame{
     
     static SerialPort port;
-    static XYSeries series = new XYSeries("Sensor 10cm");
-    static XYSeriesCollection dataset = new XYSeriesCollection(series);
+    
+    static XYSeries series15 = new XYSeries("Sensor 15cm");
+    static XYSeries series25 = new XYSeries("Sensor 25cm");
+    static XYSeries series35 = new XYSeries("Sensor 35cm");
+    static XYSeriesCollection dataset = new XYSeriesCollection();
+    
+        
+    
     static int x = 0;
     
     int number=0;
@@ -38,6 +47,10 @@ public class aq_dados_gui extends javax.swing.JFrame{
      */
     public aq_dados_gui() {
         initComponents();
+        dataset.addSeries(series15);
+        dataset.addSeries(series25);
+        dataset.addSeries(series35);
+        
     }
     
     /**
@@ -125,25 +138,57 @@ public class aq_dados_gui extends javax.swing.JFrame{
             port = SerialPort.getCommPort(cmbbox_ports.getSelectedItem().toString());
             port.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
             port.setBaudRate(Integer.parseInt(cmbbox_baudrate.getSelectedItem().toString()));
+            
             if(port.openPort()){
+                
                 btn_conectar.setText("Desconectar");
                 cmbbox_ports.setEnabled(false);
                 cmbbox_baudrate.setEnabled(false);
             
             }
-            
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(aq_dados_gui.class.getName()).log(Level.SEVERE, null, ex);
+            }
             Thread thread =new Thread(){
             @Override
             
             public void run(){
+                
                 Scanner scanner = new Scanner(port.getInputStream());
 				while(scanner.hasNext()) {
 					try {
 						String line = scanner.nextLine();
-						int number = Integer.parseInt(line);
-						series.add(x++,number);
-                                                System.out.println(number);
+						
+                                                //int number = Integer.parseInt(line);
+						//series.add(x++,number);
+                                                //System.out.println(number);
                                                 
+                                                try{
+                                                    JSONArray jsonArray = new JSONArray(line);
+                                                    JSONObject jsonSensor15 = jsonArray.getJSONObject(0);
+                                                    JSONObject jsonSensor25 = jsonArray.getJSONObject(1);
+                                                    JSONObject jsonSensor35 = jsonArray.getJSONObject(2);
+                                                    /*
+                                                    series15.add(jsonSensor15.getBigInteger("time"), jsonSensor15.getInt("value"));
+                                                    series25.add(jsonSensor25.getBigInteger("time"), jsonSensor25.getInt("value"));
+                                                    series35.add(jsonSensor35.getBigInteger("time"), jsonSensor35.getInt("value"));
+                                                    */
+                                                    
+                                                    series15.add(x++, jsonSensor15.getInt("value"));
+                                                    series25.add(x, jsonSensor25.getInt("value"));
+                                                    series35.add(x, jsonSensor35.getInt("value"));
+                                                    
+                                                }catch(JSONException e){
+                                                    e.printStackTrace();                                                
+                                                }
+                                                
+                                                
+                                                
+                                                //JSONObject obj = new JSONObject(line);
+                                                
+                                                //System.out.println(""+obj.getString("sensor"));
                                                 
 						
 						} catch(Exception e) {}
@@ -189,6 +234,10 @@ public class aq_dados_gui extends javax.swing.JFrame{
                 
                 grafico.grafico(jPanel_chart);
                 
+                if(btn_conectar.getText().equals("Conectar")){
+                
+                }
+                
                 
                 
                 
@@ -203,7 +252,7 @@ public class aq_dados_gui extends javax.swing.JFrame{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_conectar;
+    private static javax.swing.JButton btn_conectar;
     private javax.swing.JComboBox<String> cmbbox_baudrate;
     private static javax.swing.JComboBox<String> cmbbox_ports;
     private static javax.swing.JPanel jPanel_chart;
