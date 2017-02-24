@@ -1,11 +1,13 @@
 
 import com.fazecast.jSerialComm.SerialPort;
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JSlider;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -304,13 +306,15 @@ public class aq_dados_gui extends javax.swing.JFrame{
                 renderer.setSeriesShapesVisible(0, false);
                 renderer.setSeriesShapesVisible(1, false);
                 renderer.setSeriesShapesVisible(2, false);
-                
+                plot.setDomainPannable(true);
+                plot.setRangePannable(true);
+                plot.setDomainCrosshairVisible(true);
+                plot.setRangeCrosshairVisible(true);
                 plot.setRenderer(renderer);
                 ValueAxis axis = plot.getDomainAxis();
                 axis.setAutoRange(true);
                 axis.setFixedAutoRange(60);
                 
-               
                 jPanel_chart.add(new ChartPanel(chart));
                 jPanel_chart.repaint();
                 jPanel_chart.setVisible(true);
