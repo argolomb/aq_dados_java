@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
@@ -70,9 +71,9 @@ public class aq_dados_gui extends javax.swing.JFrame{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmbbox_ports = new javax.swing.JComboBox<>();
+        cmbbox_ports = new javax.swing.JComboBox();
         btn_conectar = new javax.swing.JButton();
-        cmbbox_baudrate = new javax.swing.JComboBox<>();
+        cmbbox_baudrate = new javax.swing.JComboBox();
         jPanel_chart = new javax.swing.JPanel();
         chkbox_sensor15 = new javax.swing.JCheckBox();
         chkbox_sensor25 = new javax.swing.JCheckBox();
@@ -84,7 +85,7 @@ public class aq_dados_gui extends javax.swing.JFrame{
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bancada para Controle de Fluxo de Calor");
 
-        cmbbox_ports.setModel(new javax.swing.DefaultComboBoxModel<>());
+        cmbbox_ports.setModel(new javax.swing.DefaultComboBoxModel());
         cmbbox_ports.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbbox_portsActionPerformed(evt);
@@ -98,7 +99,7 @@ public class aq_dados_gui extends javax.swing.JFrame{
             }
         });
 
-        cmbbox_baudrate.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "9600", "14400", "19200", "28800", "38400", "57600", "115200" }));
+        cmbbox_baudrate.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "9600", "14400", "19200", "28800", "38400", "57600", "115200" }));
 
         jPanel_chart.setBackground(new java.awt.Color(254, 254, 254));
         jPanel_chart.setLayout(new javax.swing.BoxLayout(jPanel_chart, javax.swing.BoxLayout.LINE_AXIS));
@@ -232,7 +233,7 @@ public class aq_dados_gui extends javax.swing.JFrame{
                                                     series15.add(x, jsonSensor15.getInt("value"));
                                                     series25.add(x, jsonSensor25.getInt("value"));
                                                     series35.add(x++, jsonSensor35.getInt("value"));
-                                                    
+
                                                     renderer.setSeriesVisible(0, chkbox_sensor15.isSelected());
                                                     renderer.setSeriesVisible(1, chkbox_sensor25.isSelected());
                                                     renderer.setSeriesVisible(2, chkbox_sensor35.isSelected());
@@ -292,19 +293,22 @@ public class aq_dados_gui extends javax.swing.JFrame{
                 //grafico.grafico(jPanel_chart);
                 
                 XYPlot plot = chart.getXYPlot();
-                
+
                 
                 renderer.setSeriesPaint( 0 , Color.RED );
-                renderer.setSeriesPaint( 1 , Color.GREEN );
+                renderer.setSeriesPaint( 1 , Color.BLACK );
                 renderer.setSeriesPaint( 2 , Color.blue );
-                renderer.setSeriesStroke( 0 , new BasicStroke( .5f ) );
-                renderer.setSeriesStroke( 1 , new BasicStroke( .5f ) );
-                renderer.setSeriesStroke( 2 , new BasicStroke( .5f ) );
+                renderer.setSeriesStroke( 0 , new BasicStroke( 1.5f ) );
+                renderer.setSeriesStroke( 1 , new BasicStroke( 1.5f ) );
+                renderer.setSeriesStroke( 2 , new BasicStroke( 1.5f ) );
                 renderer.setSeriesShapesVisible(0, false);
                 renderer.setSeriesShapesVisible(1, false);
                 renderer.setSeriesShapesVisible(2, false);
                 
                 plot.setRenderer(renderer);
+                ValueAxis axis = plot.getDomainAxis();
+                axis.setAutoRange(true);
+                axis.setFixedAutoRange(60);
                 
                
                 jPanel_chart.add(new ChartPanel(chart));
@@ -320,8 +324,8 @@ public class aq_dados_gui extends javax.swing.JFrame{
     private static javax.swing.JCheckBox chkbox_sensor15;
     private static javax.swing.JCheckBox chkbox_sensor25;
     private static javax.swing.JCheckBox chkbox_sensor35;
-    private javax.swing.JComboBox<String> cmbbox_baudrate;
-    private static javax.swing.JComboBox<String> cmbbox_ports;
+    private javax.swing.JComboBox cmbbox_baudrate;
+    private static javax.swing.JComboBox cmbbox_ports;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
