@@ -1,13 +1,13 @@
 
 import com.fazecast.jSerialComm.SerialPort;
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
+
+import java.awt.*;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JSlider;
+import javax.swing.*;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -74,6 +74,7 @@ public class aq_dados_gui extends javax.swing.JFrame{
     private void initComponents() {
 
         cmbbox_ports = new javax.swing.JComboBox();
+        frequency_text = new javax.swing.JComboBox();
         btn_conectar = new javax.swing.JButton();
         cmbbox_baudrate = new javax.swing.JComboBox();
         jPanel_chart = new javax.swing.JPanel();
@@ -83,6 +84,7 @@ public class aq_dados_gui extends javax.swing.JFrame{
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bancada para Controle de Fluxo de Calor");
@@ -91,6 +93,15 @@ public class aq_dados_gui extends javax.swing.JFrame{
         cmbbox_ports.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbbox_portsActionPerformed(evt);
+            }
+        });
+
+        frequency_text.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"0.5", "1", "2", "5", "10"}));
+        frequency_text.setSelectedItem("10");
+        frequency_text.setEnabled(false);
+        frequency_text.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                frequencyActionPerformed(evt);
             }
         });
 
@@ -124,6 +135,8 @@ public class aq_dados_gui extends javax.swing.JFrame{
 
         jLabel3.setText("Exibir no Gráfico:");
 
+        jLabel4.setText("Frequência (Hz):");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -139,11 +152,14 @@ public class aq_dados_gui extends javax.swing.JFrame{
                             .addComponent(btn_conectar, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
                             .addComponent(cmbbox_baudrate, 0, 181, Short.MAX_VALUE)
                             .addComponent(cmbbox_ports, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(frequency_text, 181, 181, 181)
                             .addComponent(chkbox_sensor15)
                             .addComponent(chkbox_sensor25)
                             .addComponent(chkbox_sensor35)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                        )
                         .addGap(18, 18, 18)
                         .addComponent(jPanel_chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(28, 28, 28))))
@@ -165,6 +181,7 @@ public class aq_dados_gui extends javax.swing.JFrame{
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbbox_baudrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_conectar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -175,6 +192,8 @@ public class aq_dados_gui extends javax.swing.JFrame{
                         .addComponent(chkbox_sensor25)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chkbox_sensor35)
+                        .addComponent(jLabel4)
+                        .addComponent(frequency_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(84, Short.MAX_VALUE))
         );
@@ -186,6 +205,26 @@ public class aq_dados_gui extends javax.swing.JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbbox_portsActionPerformed
 
+    private void frequencyActionPerformed(java.awt.event.ActionEvent evt)
+    {
+        Float frequency = Float.parseFloat(frequency_text.getSelectedItem().toString());
+        Float millisecond = 1000 / frequency;
+        String buffer = "@" + millisecond.intValue() + ";OK";
+        if (port != null && port.isOpen()) {
+            port.writeBytes(buffer.getBytes(), buffer.getBytes().length);
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000);
+                    clearChart();
+                }
+                catch (Exception e){
+                    clearChart();
+                    System.err.println(e);
+                }
+            }).start();
+        }
+    }
+
     private void btn_conectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_conectarActionPerformed
         // TODO add your handling code here:
         
@@ -196,14 +235,12 @@ public class aq_dados_gui extends javax.swing.JFrame{
             port = SerialPort.getCommPort(cmbbox_ports.getSelectedItem().toString());
             port.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
             port.setBaudRate(Integer.parseInt(cmbbox_baudrate.getSelectedItem().toString()));
-            
+
             if(port.openPort()){
-                
                 btn_conectar.setText("Desconectar");
                 cmbbox_ports.setEnabled(false);
                 cmbbox_baudrate.setEnabled(false);
-                
-            
+                frequency_text.setEnabled(true);
             }
             try {
                 TimeUnit.SECONDS.sleep(1);
@@ -232,16 +269,17 @@ public class aq_dados_gui extends javax.swing.JFrame{
                                                     series25.add(jsonSensor25.getBigInteger("time"), jsonSensor25.getInt("value"));
                                                     series35.add(jsonSensor35.getBigInteger("time"), jsonSensor35.getInt("value"));
                                                     */
-                                                    series15.add(x, jsonSensor15.getInt("value"));
-                                                    series25.add(x, jsonSensor25.getInt("value"));
-                                                    series35.add(x++, jsonSensor35.getInt("value"));
+                                                    series15.add(x, convertValue(jsonSensor15.getInt("value")));
+                                                    series25.add(x, convertValue(jsonSensor25.getInt("value")));
+                                                    series35.add(x++, convertValue(jsonSensor35.getInt("value")));
 
                                                     renderer.setSeriesVisible(0, chkbox_sensor15.isSelected());
                                                     renderer.setSeriesVisible(1, chkbox_sensor25.isSelected());
                                                     renderer.setSeriesVisible(2, chkbox_sensor35.isSelected());
                                                                                                                                                                 
                                                     }catch(JSONException e){
-                                                        e.printStackTrace();                                                
+                                                        System.out.println("Read from serial: " + line);
+                                                        e.printStackTrace();
                                                      }
                                                 
                                              } catch(Exception e) {}
@@ -256,16 +294,27 @@ public class aq_dados_gui extends javax.swing.JFrame{
             port.closePort();
             cmbbox_ports.setEnabled(true);
             cmbbox_baudrate.setEnabled(true);
+            frequency_text.setEnabled(false);
             btn_conectar.setText("Conectar");
             /*APAGA O GRAFICO */
-            series15.clear();
-            series25.clear();
-            series35.clear();
-            x=0;
+            clearChart();
             /*APAGA O GRAFICO */
         }
         
     }//GEN-LAST:event_btn_conectarActionPerformed
+
+    private int convertValue(int value)
+    {
+        return value;
+    }
+
+    private void clearChart()
+    {
+        series15.clear();
+        series25.clear();
+        series35.clear();
+        x=0;
+    }
 
     private void chkbox_sensor15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkbox_sensor15ActionPerformed
         // TODO add your handling code here:
@@ -330,9 +379,11 @@ public class aq_dados_gui extends javax.swing.JFrame{
     private static javax.swing.JCheckBox chkbox_sensor35;
     private javax.swing.JComboBox cmbbox_baudrate;
     private static javax.swing.JComboBox cmbbox_ports;
+    private static javax.swing.JComboBox frequency_text;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private static javax.swing.JPanel jPanel_chart;
     // End of variables declaration//GEN-END:variables
 }
