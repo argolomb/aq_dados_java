@@ -81,6 +81,22 @@ public class aq_dados_gui extends javax.swing.JFrame{
         chkbox_sensor15 = new javax.swing.JCheckBox();
         chkbox_sensor25 = new javax.swing.JCheckBox();
         chkbox_sensor35 = new javax.swing.JCheckBox();
+        txtField_beta_sensor15 = new javax.swing.JTextField();
+        jLabel_beta_sensor15 = new javax.swing.JLabel();
+        txtField_beta_sensor25 = new javax.swing.JTextField();
+        jLabel_beta_sensor25 = new javax.swing.JLabel();
+        txtField_beta_sensor35 = new javax.swing.JTextField();
+        jLabel_beta_sensor35 = new javax.swing.JLabel();
+        jLabel_initial_voltage = new javax.swing.JLabel();
+        txtField_initial_voltage = new javax.swing.JTextField();
+        txtField_initialResistence_sensor15 = new javax.swing.JTextField();
+        jLabel_initialResistence_sensor15 = new javax.swing.JLabel();
+        txtField_initialResistence_sensor25 = new javax.swing.JTextField();
+        jLabel_initialResistence_sensor25 = new javax.swing.JLabel();
+        txtField_initialResistence_sensor35 = new javax.swing.JTextField();
+        jLabel_initialResistence_sensor35 = new javax.swing.JLabel();
+        txtField_initialTemperature_sensor = new javax.swing.JTextField();
+        jLabel_initialTemperature_sensor = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -112,6 +128,15 @@ public class aq_dados_gui extends javax.swing.JFrame{
             }
         });
 
+        txtField_initialTemperature_sensor.setText("29");
+        txtField_beta_sensor15.setText("4607.3");
+        txtField_beta_sensor25.setText("5181.4");
+        txtField_beta_sensor35.setText("4976.9");
+        txtField_initialResistence_sensor15.setText("6440");
+        txtField_initialResistence_sensor25.setText("5920");
+        txtField_initialResistence_sensor35.setText("6990");
+        txtField_initial_voltage.setText("5.11");
+
         cmbbox_baudrate.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "9600", "14400", "19200", "28800", "38400", "57600", "115200" }));
 
         jPanel_chart.setBackground(new java.awt.Color(254, 254, 254));
@@ -136,6 +161,14 @@ public class aq_dados_gui extends javax.swing.JFrame{
         jLabel3.setText("Exibir no Gráfico:");
 
         jLabel4.setText("Frequência (Hz):");
+        jLabel_beta_sensor15.setText("Beta");
+        jLabel_beta_sensor25.setText("Beta");
+        jLabel_beta_sensor35.setText("Beta");
+        jLabel_initialResistence_sensor15.setText("Resistência inicial");
+        jLabel_initialResistence_sensor25.setText("Resistência inicial");
+        jLabel_initialResistence_sensor35.setText("Resistência inicial");
+        jLabel_initialTemperature_sensor.setText("Temperatura inicial");
+        jLabel_initial_voltage.setText("Tensão de entrada");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,6 +192,22 @@ public class aq_dados_gui extends javax.swing.JFrame{
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
+                            .addComponent(txtField_initialTemperature_sensor, 181, 181, 181)
+                            .addComponent(jLabel_initialTemperature_sensor)
+                            .addComponent(txtField_initial_voltage, 181, 181, 181)
+                            .addComponent(jLabel_initial_voltage)
+                            .addComponent(txtField_beta_sensor15, 181, 181, 181)
+                            .addComponent(jLabel_beta_sensor15)
+                            .addComponent(txtField_beta_sensor25, 181, 181, 181)
+                            .addComponent(jLabel_beta_sensor25)
+                            .addComponent(txtField_beta_sensor35, 181, 181, 181)
+                            .addComponent(jLabel_beta_sensor35)
+                            .addComponent(txtField_initialResistence_sensor15, 181, 181, 181)
+                            .addComponent(jLabel_initialResistence_sensor15)
+                            .addComponent(txtField_initialResistence_sensor25, 181, 181, 181)
+                            .addComponent(jLabel_initialResistence_sensor25)
+                            .addComponent(txtField_initialResistence_sensor35, 181, 181, 181)
+                            .addComponent(jLabel_initialResistence_sensor35)
                         )
                         .addGap(18, 18, 18)
                         .addComponent(jPanel_chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -185,13 +234,29 @@ public class aq_dados_gui extends javax.swing.JFrame{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_conectar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)
+                            .addComponent(jLabel_initialTemperature_sensor)
+                            .addComponent(txtField_initialTemperature_sensor)
+                            .addComponent(jLabel_initial_voltage)
+                            .addComponent(txtField_initial_voltage)
+                            .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chkbox_sensor15)
+                        .addComponent(jLabel_beta_sensor15)
+                        .addComponent(txtField_beta_sensor15)
+                            .addComponent(jLabel_initialResistence_sensor15)
+                            .addComponent(txtField_initialResistence_sensor15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chkbox_sensor25)
+                        .addComponent(jLabel_beta_sensor25)
+                        .addComponent(txtField_beta_sensor25)
+                        .addComponent(jLabel_initialResistence_sensor25)
+                        .addComponent(txtField_initialResistence_sensor25)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chkbox_sensor35)
+                        .addComponent(jLabel_beta_sensor35)
+                        .addComponent(txtField_beta_sensor35)
+                        .addComponent(jLabel_initialResistence_sensor35)
+                        .addComponent(txtField_initialResistence_sensor35)
                         .addComponent(jLabel4)
                         .addComponent(frequency_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -236,10 +301,31 @@ public class aq_dados_gui extends javax.swing.JFrame{
             port.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
             port.setBaudRate(Integer.parseInt(cmbbox_baudrate.getSelectedItem().toString()));
 
+            try {
+                beta15 = getFieldValue(txtField_beta_sensor15, "Beta do sensor 15", Double.MIN_VALUE, Double.MAX_VALUE);
+                initialRes15 = getFieldValue(txtField_initialResistence_sensor15, "Resistência inicial do sensor 15", Double.MIN_VALUE, Double.MAX_VALUE);
+                initialTemp = getFieldValue(txtField_initialTemperature_sensor, "Temperatura inicial", Double.MIN_VALUE, Double.MAX_VALUE);
+                beta25 = getFieldValue(txtField_beta_sensor25, "Beta do sensor 25", Double.MIN_VALUE, Double.MAX_VALUE);
+                initialRes25 = getFieldValue(txtField_initialResistence_sensor25, "Resistência inicial do sensor 25", Double.MIN_VALUE, Double.MAX_VALUE);
+                beta35 = getFieldValue(txtField_beta_sensor35, "Beta do sensor 35", Double.MIN_VALUE, Double.MAX_VALUE);
+                initialRes35 = getFieldValue(txtField_initialResistence_sensor35, "Resistência inicial do sensor 35", Double.MIN_VALUE, Double.MAX_VALUE);
+                inputVoltage = getFieldValue(txtField_initial_voltage, "Tensão de entrada", Double.MIN_VALUE, Double.MAX_VALUE);
+            } catch (Exception e) {
+                return;
+            }
+
             if(port.openPort()){
                 btn_conectar.setText("Desconectar");
                 cmbbox_ports.setEnabled(false);
                 cmbbox_baudrate.setEnabled(false);
+                txtField_initialTemperature_sensor.setEnabled(false);
+                txtField_initial_voltage.setEnabled(false);
+                txtField_initialResistence_sensor15.setEnabled(false);
+                txtField_initialResistence_sensor25.setEnabled(false);
+                txtField_initialResistence_sensor35.setEnabled(false);
+                txtField_beta_sensor15.setEnabled(false);
+                txtField_beta_sensor25.setEnabled(false);
+                txtField_beta_sensor35.setEnabled(false);
                 frequency_text.setEnabled(true);
             }
             try {
@@ -269,9 +355,12 @@ public class aq_dados_gui extends javax.swing.JFrame{
                                                     series25.add(jsonSensor25.getBigInteger("time"), jsonSensor25.getInt("value"));
                                                     series35.add(jsonSensor35.getBigInteger("time"), jsonSensor35.getInt("value"));
                                                     */
-                                                    series15.add(x, convertValue(jsonSensor15.getInt("value")));
-                                                    series25.add(x, convertValue(jsonSensor25.getInt("value")));
-                                                    series35.add(x++, convertValue(jsonSensor35.getInt("value")));
+                                                    Double value15 = convertKelvinToCelsius(getTemperature(getResistance(inputVoltage*1000.0, jsonSensor15.getDouble("value"), 20000.0), beta15, initialRes15, convertCelsiusToKelvin(initialTemp)));
+                                                    Double value25 = convertKelvinToCelsius(getTemperature(getResistance(inputVoltage*1000.0, jsonSensor25.getDouble("value"), 20000.0), beta25, initialRes25, convertCelsiusToKelvin(initialTemp)));
+                                                    Double value35 = convertKelvinToCelsius(getTemperature(getResistance(inputVoltage*1000.0, jsonSensor35.getDouble("value"), 20000.0), beta35, initialRes35, convertCelsiusToKelvin(initialTemp)));
+                                                    series15.add(x, value15);
+                                                    series25.add(x, value25);
+                                                    series35.add(x++, value35);
 
                                                     renderer.setSeriesVisible(0, chkbox_sensor15.isSelected());
                                                     renderer.setSeriesVisible(1, chkbox_sensor25.isSelected());
@@ -295,6 +384,14 @@ public class aq_dados_gui extends javax.swing.JFrame{
             cmbbox_ports.setEnabled(true);
             cmbbox_baudrate.setEnabled(true);
             frequency_text.setEnabled(false);
+            txtField_initialTemperature_sensor.setEnabled(true);
+            txtField_initial_voltage.setEnabled(true);
+            txtField_initialResistence_sensor15.setEnabled(true);
+            txtField_initialResistence_sensor25.setEnabled(true);
+            txtField_initialResistence_sensor35.setEnabled(true);
+            txtField_beta_sensor15.setEnabled(true);
+            txtField_beta_sensor25.setEnabled(true);
+            txtField_beta_sensor35.setEnabled(true);
             btn_conectar.setText("Conectar");
             /*APAGA O GRAFICO */
             clearChart();
@@ -303,9 +400,42 @@ public class aq_dados_gui extends javax.swing.JFrame{
         
     }//GEN-LAST:event_btn_conectarActionPerformed
 
-    private int convertValue(int value)
+    private Double getResistance(Double inputVoltage, Double outputVoltage, Double initialResistance)
     {
-        return value;
+        return (initialResistance * (outputVoltage/inputVoltage)) / ((-outputVoltage/inputVoltage) + 1);
+    }
+
+    private double getFieldValue(javax.swing.JTextField field, String description, Double minValue, Double maxValue) throws Exception {
+        try {
+            Double value = Double.parseDouble(field.getText());
+            if (value < minValue) {
+                JOptionPane.showMessageDialog(field, description + " deve ser menor que " + minValue.toString(), "Erro!", JOptionPane.WARNING_MESSAGE);
+                throw new Exception();
+            }
+            if (value > maxValue) {
+                JOptionPane.showMessageDialog(field, description + " deve ser maior que " + maxValue.toString(), "Erro!", JOptionPane.WARNING_MESSAGE);
+                throw new Exception();
+            }
+            return value;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(field, description + " deve ser um número.", "Erro!", JOptionPane.WARNING_MESSAGE);
+        }
+        throw new Exception();
+    }
+
+    private double getTemperature(double resistance, double beta, double initialResistance, double initialTemperature)
+    {
+        return Math.pow((1/initialTemperature) + (1/beta)*(Math.log(resistance/initialResistance)), -1);
+    }
+
+    private double convertKelvinToCelsius(double kelvin)
+    {
+        return kelvin - 273.15F;
+    }
+
+    private double convertCelsiusToKelvin(double celsius)
+    {
+        return celsius + 273.15F;
     }
 
     private void clearChart()
@@ -375,8 +505,24 @@ public class aq_dados_gui extends javax.swing.JFrame{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JButton btn_conectar;
     private static javax.swing.JCheckBox chkbox_sensor15;
+    private static javax.swing.JTextField txtField_beta_sensor15;
+    private static javax.swing.JTextField txtField_initialResistence_sensor15;
+    private static javax.swing.JTextField txtField_initialTemperature_sensor;
     private static javax.swing.JCheckBox chkbox_sensor25;
+    private static javax.swing.JTextField txtField_beta_sensor25;
+    private static javax.swing.JTextField txtField_initialResistence_sensor25;
     private static javax.swing.JCheckBox chkbox_sensor35;
+    private static javax.swing.JTextField txtField_beta_sensor35;
+    private static javax.swing.JTextField txtField_initialResistence_sensor35;
+    private static javax.swing.JTextField txtField_initial_voltage;
+    private javax.swing.JLabel jLabel_beta_sensor15;
+    private javax.swing.JLabel jLabel_beta_sensor25;
+    private javax.swing.JLabel jLabel_beta_sensor35;
+    private javax.swing.JLabel jLabel_initialResistence_sensor15;
+    private javax.swing.JLabel jLabel_initialResistence_sensor25;
+    private javax.swing.JLabel jLabel_initialResistence_sensor35;
+    private javax.swing.JLabel jLabel_initialTemperature_sensor;
+    private javax.swing.JLabel jLabel_initial_voltage;
     private javax.swing.JComboBox cmbbox_baudrate;
     private static javax.swing.JComboBox cmbbox_ports;
     private static javax.swing.JComboBox frequency_text;
@@ -385,5 +531,13 @@ public class aq_dados_gui extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private static javax.swing.JPanel jPanel_chart;
+    private Double beta15;
+    private Double beta25;
+    private Double beta35;
+    private Double initialTemp;
+    private Double initialRes15;
+    private Double initialRes25;
+    private Double initialRes35;
+    private Double inputVoltage;
     // End of variables declaration//GEN-END:variables
 }
