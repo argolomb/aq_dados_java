@@ -9,7 +9,6 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import javax.annotation.Generated;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -19,10 +18,13 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
+import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class aq_dados_gui extends javax.swing.JFrame{
     
@@ -30,22 +32,36 @@ public class aq_dados_gui extends javax.swing.JFrame{
     
     static XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( );
     
-    static XYSeries series15 = new XYSeries("Sensor 15cm");
-    static XYSeries series25 = new XYSeries("Sensor 25cm");
-    static XYSeries series35 = new XYSeries("Sensor 35cm");
+    static XYSeries series0 = new XYSeries(0);
+    static XYSeries series1 = new XYSeries(1);
+    static XYSeries series2 = new XYSeries(2);
+    static XYSeries series3 = new XYSeries(3);
+    static XYSeries series4 = new XYSeries(4);
+    static XYSeries series5 = new XYSeries(5);
+    static XYSeries series6 = new XYSeries(6);
+    static XYSeries series7 = new XYSeries(7);
+    static XYSeries series8 = new XYSeries(8);
+    static XYSeries series9 = new XYSeries(9);
     static XYSeriesCollection dataset = new XYSeriesCollection();
-    
     static int x = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JButton btn_conectar;
-    private static javax.swing.JCheckBox chkbox_sensor15;
+    private static JCheckBox chkbox_sensor1 = new JCheckBox();
     private static JTextField txtField_beta_sensor15;
     private static JTextField txtField_initialResistence_sensor15;
     private static JTextField txtField_initialTemperature_sensor;
-    private static javax.swing.JCheckBox chkbox_sensor25;
+    private static JCheckBox chkbox_sensor2 = new JCheckBox();
     private static JTextField txtField_beta_sensor25;
     private static JTextField txtField_initialResistence_sensor25;
-    private static javax.swing.JCheckBox chkbox_sensor35;
+    private static JCheckBox chkbox_sensor3 = new JCheckBox();
+    private static JCheckBox chkbox_sensor0 = new JCheckBox();
+    private static JCheckBox chkbox_sensor4 = new JCheckBox();
+    private static JCheckBox chkbox_sensor5 = new JCheckBox();
+    private static JCheckBox chkbox_sensor6 = new JCheckBox();
+    private static JCheckBox chkbox_sensor7 = new JCheckBox();
+    private static JCheckBox chkbox_sensor8 = new JCheckBox();
+    private static JCheckBox chkbox_sensor9 = new JCheckBox();
+    private List<JCheckBox> checkBoxList = new ArrayList<JCheckBox>();
     private static JTextField txtField_beta_sensor35;
     private static JTextField txtField_initialResistence_sensor35;
     private static JTextField txtField_initial_voltage;
@@ -74,17 +90,24 @@ public class aq_dados_gui extends javax.swing.JFrame{
     private Double initialRes25;
     private Double initialRes35;
     private Double inputVoltage;
-    private int sensorCount;
+    private int sensorCount = 0;
+    private Map<String, List> sensorsConfiguration = new HashMap<String, List>();
 
     /**
      * Creates new form aq
      */
     public aq_dados_gui() {
         initComponents();
-        dataset.addSeries(series15);
-        dataset.addSeries(series25);
-        dataset.addSeries(series35);
-
+        dataset.addSeries(series0);
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+        dataset.addSeries(series3);
+        dataset.addSeries(series4);
+        dataset.addSeries(series5);
+        dataset.addSeries(series6);
+        dataset.addSeries(series7);
+        dataset.addSeries(series8);
+        dataset.addSeries(series9);
     }
 
     /**
@@ -92,17 +115,6 @@ public class aq_dados_gui extends javax.swing.JFrame{
      */
 
     public static void main(String args[]) {
-               /* System.out.println(eval("((4 - 2^3 + 1) * -sqrt(3*3+4*4)) / 2"));
-                    ScriptEngineManager mgr = new ScriptEngineManager();
-                    ScriptEngine engine = mgr.getEngineByName("JavaScript");
-                    String foo = "((4 - Math.pow(2, 3) + 1) * -Math.sqrt(3*3+4*4)) / 2";
-//                    String foo = "((4 - 2^3))";
-//        System.out.println(2^3);
-        try {
-            System.out.println(engine.eval(foo));
-        } catch (ScriptException e) {
-            e.printStackTrace();
-        }*/
         new aq_dados_gui().setVisible(true);
 
                 Lista_Serial lista_serial=new Lista_Serial();
@@ -123,13 +135,34 @@ public class aq_dados_gui extends javax.swing.JFrame{
 
                 renderer.setSeriesPaint( 0 , Color.RED );
                 renderer.setSeriesPaint( 1 , Color.BLACK );
-                renderer.setSeriesPaint( 2 , Color.blue );
+                renderer.setSeriesPaint( 2 , Color.BLUE );
+                renderer.setSeriesPaint( 3 , Color.CYAN );
+                renderer.setSeriesPaint( 4 , Color.GREEN );
+                renderer.setSeriesPaint( 5 , Color.MAGENTA );
+                renderer.setSeriesPaint( 6 , Color.GRAY );
+                renderer.setSeriesPaint( 7 , Color.YELLOW );
+                renderer.setSeriesPaint( 8 , Color.PINK );
+                renderer.setSeriesPaint( 9 , Color.ORANGE );
                 renderer.setSeriesStroke( 0 , new BasicStroke( 1.5f ) );
                 renderer.setSeriesStroke( 1 , new BasicStroke( 1.5f ) );
                 renderer.setSeriesStroke( 2 , new BasicStroke( 1.5f ) );
+                renderer.setSeriesStroke( 3 , new BasicStroke( 1.5f ) );
+                renderer.setSeriesStroke( 4 , new BasicStroke( 1.5f ) );
+                renderer.setSeriesStroke( 5 , new BasicStroke( 1.5f ) );
+                renderer.setSeriesStroke( 6 , new BasicStroke( 1.5f ) );
+                renderer.setSeriesStroke( 7 , new BasicStroke( 1.5f ) );
+                renderer.setSeriesStroke( 8 , new BasicStroke( 1.5f ) );
+                renderer.setSeriesStroke( 9 , new BasicStroke( 1.5f ) );
                 renderer.setSeriesShapesVisible(0, false);
                 renderer.setSeriesShapesVisible(1, false);
                 renderer.setSeriesShapesVisible(2, false);
+                renderer.setSeriesShapesVisible(3, false);
+                renderer.setSeriesShapesVisible(4, false);
+                renderer.setSeriesShapesVisible(5, false);
+                renderer.setSeriesShapesVisible(6, false);
+                renderer.setSeriesShapesVisible(7, false);
+                renderer.setSeriesShapesVisible(8, false);
+                renderer.setSeriesShapesVisible(9, false);
                 plot.setDomainPannable(true);
                 plot.setRangePannable(true);
                 plot.setDomainCrosshairVisible(true);
@@ -137,7 +170,6 @@ public class aq_dados_gui extends javax.swing.JFrame{
                 plot.setRenderer(renderer);
                 ValueAxis axis = plot.getDomainAxis();
                 axis.setFixedAutoRange(60);
-
                 jPanel_chart.add(new ChartPanel(chart));
                 jPanel_chart.repaint();
                 jPanel_chart.setVisible(true);
@@ -160,9 +192,16 @@ public class aq_dados_gui extends javax.swing.JFrame{
         btn_conectar = new javax.swing.JButton();
         cmbbox_baudrate = new javax.swing.JComboBox();
         jPanel_chart = new javax.swing.JPanel();
-        chkbox_sensor15 = new javax.swing.JCheckBox();
-        chkbox_sensor25 = new javax.swing.JCheckBox();
-        chkbox_sensor35 = new javax.swing.JCheckBox();
+        checkBoxList.add(chkbox_sensor0);
+        checkBoxList.add(chkbox_sensor1);
+        checkBoxList.add(chkbox_sensor2);
+        checkBoxList.add(chkbox_sensor3);
+        checkBoxList.add(chkbox_sensor4);
+        checkBoxList.add(chkbox_sensor5);
+        checkBoxList.add(chkbox_sensor6);
+        checkBoxList.add(chkbox_sensor7);
+        checkBoxList.add(chkbox_sensor8);
+        checkBoxList.add(chkbox_sensor9);
         txtField_beta_sensor15 = new JTextField();
         jLabel_beta_sensor15 = new javax.swing.JLabel();
         txtField_beta_sensor25 = new JTextField();
@@ -196,10 +235,14 @@ public class aq_dados_gui extends javax.swing.JFrame{
         menu = new JMenu("Settings");
         menuBar.add(menu);
         menuItem = new JMenuItem("Preferences");
+        JFrame frame = new JFrame("Tabela de sensores");
+        preferencesFrame(frame);
+        menuItem.putClientProperty("frame", frame);
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                preferencesFrame();
+                JFrame frame = (JFrame)((JMenuItem)e.getSource()).getClientProperty("frame");
+                frame.setVisible(true);
             }
         });
         menu.add(menuItem);
@@ -242,18 +285,6 @@ public class aq_dados_gui extends javax.swing.JFrame{
         jPanel_chart.setBackground(new java.awt.Color(254, 254, 254));
         jPanel_chart.setLayout(new javax.swing.BoxLayout(jPanel_chart, javax.swing.BoxLayout.LINE_AXIS));
 
-        chkbox_sensor15.setSelected(true);
-        chkbox_sensor15.setText("Sensor 15cm");
-        chkbox_sensor15.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                chkbox_sensor15ActionPerformed(evt);
-            }
-        });
-
-        chkbox_sensor25.setText("Sensor 25cm");
-
-        chkbox_sensor35.setText("Sensor 35cm");
-
         jLabel1.setText("Selecionar Porta Serial");
 
         jLabel2.setText("Selecionar Baudrate");
@@ -286,9 +317,16 @@ public class aq_dados_gui extends javax.swing.JFrame{
                             .addComponent(cmbbox_baudrate, 0, 181, Short.MAX_VALUE)
                             .addComponent(cmbbox_ports, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(frequency_text, 181, 181, 181)
-                            .addComponent(chkbox_sensor15)
-                            .addComponent(chkbox_sensor25)
-                            .addComponent(chkbox_sensor35)
+                            .addComponent(chkbox_sensor0)
+                            .addComponent(chkbox_sensor1)
+                            .addComponent(chkbox_sensor2)
+                            .addComponent(chkbox_sensor3)
+                            .addComponent(chkbox_sensor4)
+                            .addComponent(chkbox_sensor5)
+                            .addComponent(chkbox_sensor6)
+                            .addComponent(chkbox_sensor7)
+                            .addComponent(chkbox_sensor8)
+                            .addComponent(chkbox_sensor9)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
@@ -340,23 +378,30 @@ public class aq_dados_gui extends javax.swing.JFrame{
                         .addComponent(txtField_initial_voltage)
                         .addComponent(jLabel3)
                         .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(chkbox_sensor15)
+                        .addComponent(chkbox_sensor0)
+                        .addComponent(chkbox_sensor1)
                         .addComponent(jLabel_beta_sensor15)
                         .addComponent(txtField_beta_sensor15)
                         .addComponent(jLabel_initialResistence_sensor15)
                         .addComponent(txtField_initialResistence_sensor15)
                         .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(chkbox_sensor25)
+                        .addComponent(chkbox_sensor2)
                         .addComponent(jLabel_beta_sensor25)
                         .addComponent(txtField_beta_sensor25)
                         .addComponent(jLabel_initialResistence_sensor25)
                         .addComponent(txtField_initialResistence_sensor25)
                         .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(chkbox_sensor35)
+                        .addComponent(chkbox_sensor3)
                         .addComponent(jLabel_beta_sensor35)
                         .addComponent(txtField_beta_sensor35)
                         .addComponent(jLabel_initialResistence_sensor35)
                         .addComponent(txtField_initialResistence_sensor35)
+                        .addComponent(chkbox_sensor4)
+                        .addComponent(chkbox_sensor5)
+                        .addComponent(chkbox_sensor6)
+                        .addComponent(chkbox_sensor7)
+                        .addComponent(chkbox_sensor8)
+                        .addComponent(chkbox_sensor9)
                         .addComponent(jLabel4)
                         .addComponent(frequency_text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -366,7 +411,7 @@ public class aq_dados_gui extends javax.swing.JFrame{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void openSensorFrame(String name, String value, DefaultTableModel model)
+    private void openSensorFrame(String name, String id, String value, DefaultTableModel model, JTable table)
     {
         JFrame frame = new JFrame("Adicionar sensor");
         frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -381,18 +426,58 @@ public class aq_dados_gui extends javax.swing.JFrame{
         label_sensor_id.setText("Id do sensor");
         label_sensor_value.setText("Valor do sensor");
         txt_field_sensor_name.setText(name);
-        txt_field_sensor_id.setText("s"+String.valueOf(sensorCount));
+        txt_field_sensor_id.setText(id);
         txt_field_sensor_id.setEnabled(false);
         txt_field_sensor_value.setText(value);
         button.setText("Adicionar");
-        button.putClientProperty("name", txt_field_sensor_name.getText());
-        button.putClientProperty("value", txt_field_sensor_value.getText());
-        button.putClientProperty("table", txt_field_sensor_value.getText());
+        button.putClientProperty("name", txt_field_sensor_name);
+        button.putClientProperty("id", txt_field_sensor_id);
+        button.putClientProperty("value", txt_field_sensor_value);
+        button.putClientProperty("table", table);
         button.putClientProperty("model", model);
+        button.putClientProperty("frame", frame);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ((DefaultTableModel)((JButton)e.getSource()).getClientProperty("model")).addRow(new Object[]{1, 2, 3});
+                JButton button = (JButton)e.getSource();
+                String name = ((JTextField)(button).getClientProperty("name")).getText();
+                String id = ((JTextField)(button).getClientProperty("id")).getText();
+                String value = ((JTextField)(button).getClientProperty("value")).getText();
+                DefaultTableModel model = ((DefaultTableModel)(button).getClientProperty("model"));
+                JTable table = ((JTable)(button).getClientProperty("table"));
+                JFrame frame = ((JFrame)(button).getClientProperty("frame"));
+                if (button.getText().equals("Adicionar")) {
+                    model.addRow(new Object[]{name, id, value, "Editar "+id});
+                    ArrayList<String> list = new ArrayList<String>();
+                    list.add(name);
+                    list.add(value);
+                    sensorsConfiguration.put(id, list);
+                    String[] getRow = id.split("s");
+                    table.putClientProperty("frame-"+getRow[1], frame);
+                    Action edit = new AbstractAction()
+                    {
+                        public void actionPerformed(ActionEvent e)
+                        {
+                            JTable table = (JTable)e.getSource();
+                            String row = e.getActionCommand();
+                            table.putClientProperty("activeIndex", row);
+                            ((JFrame)(table).getClientProperty("frame-"+row)).setVisible(true);
+                        }
+                    };
+                    ButtonColumn button_edit = new ButtonColumn(table, edit, 3);
+                    button.setText("Editar");
+                    sensorCount++;
+                } else {
+                    String stringRow = (String)table.getClientProperty("activeIndex");
+                    ArrayList<String> list = new ArrayList<String>();
+                    list.add(name);
+                    list.add(value);
+                    sensorsConfiguration.replace("s"+stringRow, list);
+                    int row = Integer.valueOf(stringRow);
+                    model.setValueAt(name, row,0);
+                    model.setValueAt(value, row,2);
+                }
+                frame.setVisible(false);
             }
         });
         GroupLayout layout = new GroupLayout(frame.getContentPane());
@@ -446,20 +531,32 @@ public class aq_dados_gui extends javax.swing.JFrame{
         frame.setVisible(true);
     }
 
-    private void preferencesFrame() {
-        JFrame frame = new JFrame("Adicionar sensor");
+    private void preferencesFrame(JFrame frame) {
         frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 3;
+            }
+        };
         JTable table = new JTable(model);
         model.addColumn("Sensor name");
         model.addColumn("Sensor id");
         model.addColumn("Value");
+        model.addColumn("Ações");
         JButton button = new JButton("Adicionar sensor");
         button.putClientProperty("model", model);
+        button.putClientProperty("table", table);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openSensorFrame("", "", (DefaultTableModel)((JButton)e.getSource()).getClientProperty("model"));
+                openSensorFrame(
+                        "",
+                        "s" + String.valueOf(sensorCount),
+                        "",
+                        (DefaultTableModel)((JButton)e.getSource()).getClientProperty("model"),
+                        (JTable)((JButton)e.getSource()).getClientProperty("table")
+                );
             }
         });
         GroupLayout layout = new GroupLayout(frame.getContentPane());
@@ -474,8 +571,8 @@ public class aq_dados_gui extends javax.swing.JFrame{
                                                         .addGroup(
                                                                 layout.createParallelGroup()
                                                                         .addComponent(table.getTableHeader())
-                                                                        .addComponent(table, 300, 300, 300)
-                                                                        .addGap(10, 10, 10)
+                                                                        .addComponent(table)
+                                                                        .addGap(1000, 1000, 1000)
                                                         )
                                                         .addGroup(
                                                                 layout.createSequentialGroup()
@@ -495,13 +592,12 @@ public class aq_dados_gui extends javax.swing.JFrame{
                                 .addGroup(layout.createSequentialGroup()
                                         .addComponent(button, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addGap(50, 50 ,50)
-                                            .addComponent(table.getTableHeader())
-                                            .addComponent(table, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                                        .addComponent(table.getTableHeader())
+                                        .addComponent(table, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
                                 )
-                                .addContainerGap(84, Short.MAX_VALUE))
+                                .addContainerGap(10, Short.MAX_VALUE))
         );
         frame.pack();
-        frame.setVisible(true);
     }
 
     private void cmbbox_portsActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cmbbox_portsActionPerformed
@@ -529,8 +625,6 @@ public class aq_dados_gui extends javax.swing.JFrame{
     }
 
     private void btn_conectarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btn_conectarActionPerformed
-        // TODO add your handling code here:
-
         if(btn_conectar.getText().equals("Conectar")){
             //DEBUG
             System.out.println("Botão Ok");
@@ -575,24 +669,85 @@ public class aq_dados_gui extends javax.swing.JFrame{
             @Override
 
             public void run(){
+
+                ScriptEngineManager mgr = new ScriptEngineManager();
+                ScriptEngine engine = mgr.getEngineByName("JavaScript");
+                Integer lastIndex = -1;
+                for (String id : sensorsConfiguration.keySet()) {
+                    String[] getIndex = id.split("s");
+                    Integer index = Integer.valueOf(getIndex[1]);
+                    List list = sensorsConfiguration.get(id);
+                    String name = (String)list.get(0);
+                    String value = (String)list.get(1);
+                    checkBoxList.get(index).setVisible(true);
+                    checkBoxList.get(index).setText(name);
+                    if (index > lastIndex) {
+                        lastIndex = index;
+                    }
+                }
+                for (int i = lastIndex+1; i < 10; i++) {
+                    checkBoxList.get(i).setVisible(false);
+                    checkBoxList.get(i).setText("");
+                }
                 Scanner scanner = new Scanner(port.getInputStream());
 				while(scanner.hasNext()) {
 					try {
                         String line = scanner.nextLine();
                         try{
                             String[] reads = line.split(";");
-                            Double sensor15Read = getDoubleValueFromString(reads[0]);
-                            Double sensor25Read = getDoubleValueFromString(reads[1]);
-                            Double sensor35Read = getDoubleValueFromString(reads[2]);
-                            Double value15 = convertKelvinToCelsius(getTemperature(getResistance(inputVoltage*1000.0, sensor15Read, 20000.0), beta15, initialRes15, convertCelsiusToKelvin(initialTemp)));
-                            Double value25 = convertKelvinToCelsius(getTemperature(getResistance(inputVoltage*1000.0, sensor25Read, 20000.0), beta25, initialRes25, convertCelsiusToKelvin(initialTemp)));
-                            Double value35 = convertKelvinToCelsius(getTemperature(getResistance(inputVoltage*1000.0, sensor35Read, 20000.0), beta35, initialRes35, convertCelsiusToKelvin(initialTemp)));
-                            series15.add(x, value15);
-                            series25.add(x, value25);
-                            series35.add(x++, value35);
-                            renderer.setSeriesVisible(0, chkbox_sensor15.isSelected());
-                            renderer.setSeriesVisible(1, chkbox_sensor25.isSelected());
-                            renderer.setSeriesVisible(2, chkbox_sensor35.isSelected());
+                            HashMap<Integer, List> seriesMap = new HashMap<Integer, List>();
+                            for (int i = 0; i < reads.length; i++) {
+                                Double rawValue = Double.valueOf(reads[i]);
+                                String expression = "0.0";
+                                if (sensorsConfiguration.containsKey("s"+String.valueOf(i))) {
+                                    expression = (String)sensorsConfiguration.get("s"+String.valueOf(i)).get(1);
+                                    Pattern pattern = Pattern.compile("s\\d+", Pattern.MULTILINE);
+                                    Matcher matcher = pattern.matcher(expression);
+                                    if (matcher.lookingAt()) {
+                                        System.out.println(matcher.regionStart());
+                                        System.out.println(matcher.regionEnd());
+                                        /*for (int j = 0; i < matcher.groupCount(); i++) {
+                                            System.out.println(matcher.group(j));
+                                        }*/
+                                    }
+                                    expression = expression.replaceAll("s\\d+", String.valueOf(rawValue));
+                                }
+                                Double parsedValue = 0.0;
+                                try {
+                                    parsedValue = (Double)engine.eval(expression);
+                                } catch (ScriptException ignored) {}
+                                List<Double> seriesList = new ArrayList<Double>();
+                                seriesList.add(rawValue);
+                                seriesList.add(parsedValue);
+                                seriesMap.put(i, seriesList);
+                            }
+                            for (Integer index : seriesMap.keySet()) {
+                                List list = seriesMap.get(index);
+//                                System.out.println((Double)list.get(1));
+                                dataset.getSeries(index).add(x, (Double)list.get(1));
+                                renderer.setSeriesVisible(index, checkBoxList.get(index).isSelected());
+                            }
+                            x++;
+//                            Double sensor15Read = getDoubleValueFromString(reads[0]);
+//                            Double sensor25Read = getDoubleValueFromString(reads[1]);
+//                            Double sensor35Read = getDoubleValueFromString(reads[2]);
+//                            Double value15 = convertKelvinToCelsius(getTemperature(getResistance(inputVoltage*1000.0, sensor15Read, 20000.0), beta15, initialRes15, convertCelsiusToKelvin(initialTemp)));
+//                            Double value25 = convertKelvinToCelsius(getTemperature(getResistance(inputVoltage*1000.0, sensor25Read, 20000.0), beta25, initialRes25, convertCelsiusToKelvin(initialTemp)));
+//                            Double value35 = convertKelvinToCelsius(getTemperature(getResistance(inputVoltage*1000.0, sensor35Read, 20000.0), beta35, initialRes35, convertCelsiusToKelvin(initialTemp)));
+//                            series0.add(x, value15);
+//                            series1.add(x, value25);
+//                            series2.add(x, value35);
+//                            x++;
+//                            renderer.setSeriesVisible(0, chkbox_sensor0.isSelected());
+//                            renderer.setSeriesVisible(1, chkbox_sensor1.isSelected());
+//                            renderer.setSeriesVisible(2, chkbox_sensor2.isSelected());
+//                            renderer.setSeriesVisible(3, chkbox_sensor3.isSelected());
+//                            renderer.setSeriesVisible(4, chkbox_sensor4.isSelected());
+//                            renderer.setSeriesVisible(5, chkbox_sensor5.isSelected());
+//                            renderer.setSeriesVisible(6, chkbox_sensor6.isSelected());
+//                            renderer.setSeriesVisible(7, chkbox_sensor7.isSelected());
+//                            renderer.setSeriesVisible(8, chkbox_sensor8.isSelected());
+//                            renderer.setSeriesVisible(9, chkbox_sensor9.isSelected());
                             } catch(Exception e){
                                 System.out.println("Read from serial: " + line);
                                 e.printStackTrace();
@@ -667,12 +822,16 @@ public class aq_dados_gui extends javax.swing.JFrame{
 
     private void clearChart()
     {
-        series15.clear();
-        series25.clear();
-        series35.clear();
+        series0.clear();
+        series1.clear();
+        series2.clear();
+        series3.clear();
+        series4.clear();
+        series5.clear();
+        series6.clear();
+        series7.clear();
+        series8.clear();
+        series9.clear();
         x=0;
-    }
-
-    private void chkbox_sensor15ActionPerformed(ActionEvent evt) {
     }
 }
