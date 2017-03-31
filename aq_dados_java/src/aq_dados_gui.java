@@ -6,9 +6,11 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.NumberTickUnitSource;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.StandardXYSeriesLabelGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -108,6 +110,8 @@ public class aq_dados_gui extends javax.swing.JFrame
         for (int i = 0; i < 10; i++) {
             renderer.setSeriesStroke( i , new BasicStroke( 1.5f ) );
             renderer.setSeriesShapesVisible(i, false);
+            renderer.setSeriesVisible(i, false);
+            renderer.setSeriesItemLabelsVisible(i, false);
         }
         plot.setDomainPannable(true);
         plot.setRangePannable(true);
