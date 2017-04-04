@@ -23,6 +23,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -574,11 +579,16 @@ public class aq_dados_gui extends javax.swing.JFrame
             ScriptEngineManager mgr = new ScriptEngineManager();
             ScriptEngine engine = mgr.getEngineByName("JavaScript");
             Integer lastIndex = -1;
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
             for (String id : sensorsConfiguration.keySet()) {
                 String[] getIndex = id.split("s");
                 Integer index = Integer.valueOf(getIndex[1]);
                 List list = sensorsConfiguration.get(id);
                 String name = (String)list.get(0);
+                try {
+                    byte[] b = {};
+                    Files.write(Paths.get(timeStamp + "_sensor_" + id), b);
+                } catch (Exception e) {}
                 checkBoxList.get(index).setVisible(true);
                 checkBoxList.get(index).setEnabled(true);
                 checkBoxList.get(index).setText(name);
@@ -618,6 +628,10 @@ public class aq_dados_gui extends javax.swing.JFrame
                             List<Double> seriesList = new ArrayList<Double>();
                             seriesList.add(rawValue);
                             seriesList.add(parsedValue);
+                            try {
+                                List<String> stringParsedValue = Arrays.asList(parsedValue.toString());
+                                Files.write(Paths.get(timeStamp + "_sensor_s" + i), stringParsedValue, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+                            } catch (Exception e) {}
                             seriesMap.put(i, seriesList);
                         }
                         for (Integer index : seriesMap.keySet()) {
