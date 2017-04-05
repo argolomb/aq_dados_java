@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -70,6 +71,8 @@ public class aq_dados_gui extends javax.swing.JFrame
     private javax.swing.JComboBox cmbbox_baudrate;
     private int sensorCount = 0;
     private Map<String, List> sensorsConfiguration = new HashMap<String, List>();
+    private String path = "";
+    private JFileChooser chooser;
 
     /**
      * Creates new form aq
@@ -163,6 +166,7 @@ public class aq_dados_gui extends javax.swing.JFrame
         JMenuItem sensorsMenuItem = new JMenuItem("Sensores");
         JMenuItem connectMenuItem = new JMenuItem("Conectar");
         JMenuItem disconnectMenuItem = new JMenuItem("Desconectar");
+        JMenuItem folderSelect = new JMenuItem("Salvar em:");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bancada para Controle de Fluxo de Calor");
@@ -171,6 +175,7 @@ public class aq_dados_gui extends javax.swing.JFrame
         menuBar.add(menuSettings);
         menuSettings.add(connectMenuItem);
         menuSettings.add(disconnectMenuItem);
+        menuSettings.add(folderSelect);
         menuSettings.add(initializeMenu);
         initializeMenu.add(serialMenuItem);
         initializeMenu.add(sensorsMenuItem);
@@ -192,6 +197,7 @@ public class aq_dados_gui extends javax.swing.JFrame
         disconnectMenuItem.putClientProperty("connect", connectMenuItem);
         disconnectMenuItem.addActionListener(this::btn_desconectarActionPerformed);
         disconnectMenuItem.setEnabled(false);
+        folderSelect.addActionListener(this::btn_folder_selectActionPerformed);
 
         cmbbox_ports.setModel(new DefaultComboBoxModel());
         cmbbox_ports.addActionListener(this::cmbbox_portsActionPerformed);
@@ -273,6 +279,17 @@ public class aq_dados_gui extends javax.swing.JFrame
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_folder_selectActionPerformed(ActionEvent actionEvent) {
+        chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.home")));
+        chooser.setDialogTitle("Selecione pasta onde será salvo os logs");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            path = chooser.getSelectedFile().toString();
+        }
+    }
 
     private void openSensorFrame(String name, String id, String value, DefaultTableModel model, JTable table)
     {
@@ -586,9 +603,13 @@ public class aq_dados_gui extends javax.swing.JFrame
                 List list = sensorsConfiguration.get(id);
                 String name = (String)list.get(0);
                 try {
-                    byte[] b = {};
-                    Files.write(Paths.get(timeStamp + "_sensor_" + id), b);
-                } catch (Exception e) {}
+                    if (!path.isEmpty()) {
+                        byte[] b = {};
+                        Files.write(Paths.get(path + File.separator + timeStamp + "_sensor_" + id + ".txt"), b);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 checkBoxList.get(index).setVisible(true);
                 checkBoxList.get(index).setEnabled(true);
                 checkBoxList.get(index).setText(name);
@@ -629,9 +650,13 @@ public class aq_dados_gui extends javax.swing.JFrame
                             seriesList.add(rawValue);
                             seriesList.add(parsedValue);
                             try {
-                                List<String> stringParsedValue = Arrays.asList(parsedValue.toString());
-                                Files.write(Paths.get(timeStamp + "_sensor_s" + i), stringParsedValue, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-                            } catch (Exception e) {}
+                                if (!path.isEmpty()) {
+                                    List<String> stringParsedValue = Arrays.asList(parsedValue.toString());
+                                    Files.write(Paths.get(path + File.separator + timeStamp + "_sensor_s" + i + ".txt"), stringParsedValue, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             seriesMap.put(i, seriesList);
                         }
                         for (Integer index : seriesMap.keySet()) {
