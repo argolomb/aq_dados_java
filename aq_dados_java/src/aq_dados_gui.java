@@ -36,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.jfree.chart.axis.Axis;
 
 public class aq_dados_gui extends javax.swing.JFrame
 {
@@ -73,7 +74,9 @@ public class aq_dados_gui extends javax.swing.JFrame
     private Map<String, List> sensorsConfiguration = new HashMap<String, List>();
     private String path = "";
     private JFileChooser chooser;
-
+    public static XYPlot plot;
+    public static NumberAxis axis;
+    
     /**
      * Creates new form aq
      */
@@ -104,7 +107,7 @@ public class aq_dados_gui extends javax.swing.JFrame
             cmbbox_ports.addItem(ports_names[i].getSystemPortName());
         }
         JFreeChart chart = ChartFactory.createXYLineChart("Bancada Fluxo de Calor","Nº de Amostras", "Temperatura ºC", dataset, PlotOrientation.VERTICAL,true,true,false);
-        XYPlot plot = chart.getXYPlot();
+        plot = chart.getXYPlot();
         renderer.setSeriesPaint( 0 , Color.RED );
         renderer.setSeriesPaint( 1 , Color.BLACK );
         renderer.setSeriesPaint( 2 , Color.BLUE );
@@ -126,9 +129,12 @@ public class aq_dados_gui extends javax.swing.JFrame
         plot.setDomainCrosshairVisible(true);
         plot.setRangeCrosshairVisible(true);
         plot.setRenderer(renderer);
-        NumberAxis axis = (NumberAxis) plot.getDomainAxis();
-        axis.setFixedAutoRange(60);
-        axis.setTickUnit(new NumberTickUnit(20));
+        axis = (NumberAxis) plot.getDomainAxis();
+        //axis.setFixedAutoRange(60);
+        
+        axis.setTickUnit(new NumberTickUnit(150));
+               
+                                
         jPanel_chart.add(new ChartPanel(chart));
         jPanel_chart.repaint();
         jPanel_chart.setVisible(true);
@@ -278,7 +284,7 @@ public class aq_dados_gui extends javax.swing.JFrame
                 .addContainerGap(84, Short.MAX_VALUE))
         );
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
     private void btn_folder_selectActionPerformed(ActionEvent actionEvent) {
         chooser = new JFileChooser();
@@ -549,6 +555,7 @@ public class aq_dados_gui extends javax.swing.JFrame
             new Thread(() -> {
                 try {
                     Thread.sleep(1000);
+                    axis.setTickUnit(new NumberTickUnit(frequency*15));
                     clearChart();
                 }
                 catch (Exception e){
