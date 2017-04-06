@@ -597,25 +597,19 @@ public class aq_dados_gui extends javax.swing.JFrame
             ScriptEngine engine = mgr.getEngineByName("JavaScript");
             Integer lastIndex = -1;
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+            StringBuilder stringSensorLabel = new StringBuilder();
             for (String id : sensorsConfiguration.keySet()) {
                 String[] getIndex = id.split("s");
                 Integer index = Integer.valueOf(getIndex[1]);
                 List list = sensorsConfiguration.get(id);
                 String name = (String)list.get(0);
-                try {
-                    if (!path.isEmpty()) {
-                        byte[] b = {};
-                        Files.write(Paths.get(path + File.separator + timeStamp + "_sensor_" + id + ".txt"), b);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 checkBoxList.get(index).setVisible(true);
                 checkBoxList.get(index).setEnabled(true);
                 checkBoxList.get(index).setText(name);
                 if (index > lastIndex) {
                     lastIndex = index;
                 }
+                stringSensorLabel.append((stringSensorLabel.length() == 0) ? name : ";" + name);
             }
             for (int i = lastIndex+1; i < 10; i++) {
                 checkBoxList.get(i).setVisible(false);
@@ -623,12 +617,22 @@ public class aq_dados_gui extends javax.swing.JFrame
                 checkBoxList.get(i).setText("");
             }
             Scanner scanner = new Scanner(port.getInputStream());
+            try {
+                String realPath = "";
+                if (!path.isEmpty()) {
+                    realPath = path + File.separator;
+                }
+                Files.write(Paths.get(realPath + timeStamp + "_sensor_reading.txt"), Arrays.asList(stringSensorLabel.toString()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             while(scanner.hasNext()) {
                 try {
                     String line = scanner.nextLine();
                     try{
                         String[] reads = line.split(";");
                         HashMap<Integer, List> seriesMap = new HashMap<Integer, List>();
+                        StringBuilder stringParsedValue = new StringBuilder();
                         for (int i = 0; i < reads.length; i++) {
                             Double rawValue = Double.valueOf(reads[i]);
                             String expression = "0.0";
@@ -649,15 +653,17 @@ public class aq_dados_gui extends javax.swing.JFrame
                             List<Double> seriesList = new ArrayList<Double>();
                             seriesList.add(rawValue);
                             seriesList.add(parsedValue);
-                            try {
-                                if (!path.isEmpty()) {
-                                    List<String> stringParsedValue = Arrays.asList(parsedValue.toString());
-                                    Files.write(Paths.get(path + File.separator + timeStamp + "_sensor_s" + i + ".txt"), stringParsedValue, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
                             seriesMap.put(i, seriesList);
+                            stringParsedValue.append((stringParsedValue.length() == 0) ? parsedValue.toString() : ";" + parsedValue.toString());
+                        }
+                        try {
+                            String realPath = "";
+                            if (!path.isEmpty()) {
+                                realPath = path + File.separator;
+                            }
+                            Files.write(Paths.get(realPath + timeStamp + "_sensor_reading.txt"), Arrays.asList(stringParsedValue.toString()), StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                         for (Integer index : seriesMap.keySet()) {
                             List list = seriesMap.get(index);
