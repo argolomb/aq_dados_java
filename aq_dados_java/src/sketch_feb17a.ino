@@ -3,7 +3,7 @@ const int ledPin = 13;
 // setup initializes serial and the button pin
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.flush();
   pinMode(ledPin, OUTPUT);
 }
@@ -12,42 +12,27 @@ void setup()
 // and will send serial if it is pressed
 void loop()
 {
+  int myDelay = 100;
   if (Serial.available()) {
     Serial.println(Serial.readString());
   }
   char myBuffer[250];
   sprintf(
     myBuffer,
-    "[{\"sensorId\":1,\"timestamp\":0,\"value\":%d},", random(503,504)
+    "%d;", random(0,4096)
   );
   Serial.print(myBuffer);
   delay(10);
   sprintf(
     myBuffer,
-    "{\"sensorId\":2,\"timestamp\":0,\"value\":%d},", random(503,504)
+    "%d;", random(0,4096)
   );
   Serial.print(myBuffer);
   delay(10);
   sprintf(
     myBuffer,
-    "{\"sensorId\":3,\"timestamp\":0,\"value\":%d}]", random(503,504)
+    "%d", random(0,4096)
   );
-//  sprintf(
-//    myBuffer,
-//    "%d,", random(0,100)
-//  );
-//  Serial.print(myBuffer);
-//  delay(10);
-//  sprintf(
-//    myBuffer,
-//    "%d,", random(0,100)
-//  );
-//  Serial.print(myBuffer);
-//  delay(10);
-//  sprintf(
-//    myBuffer,
-//    "%d", random(0,100)
-//  );
+  delay(myDelay-20);
   Serial.println(myBuffer);
-  delay(10);
 }

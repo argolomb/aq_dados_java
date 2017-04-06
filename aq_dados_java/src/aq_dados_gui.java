@@ -6,9 +6,11 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.NumberTickUnitSource;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.StandardXYSeriesLabelGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -21,6 +23,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -63,6 +71,8 @@ public class aq_dados_gui extends javax.swing.JFrame
     private javax.swing.JComboBox cmbbox_baudrate;
     private int sensorCount = 0;
     private Map<String, List> sensorsConfiguration = new HashMap<String, List>();
+    private String path = "";
+    private JFileChooser chooser;
 
     /**
      * Creates new form aq
@@ -108,6 +118,8 @@ public class aq_dados_gui extends javax.swing.JFrame
         for (int i = 0; i < 10; i++) {
             renderer.setSeriesStroke( i , new BasicStroke( 1.5f ) );
             renderer.setSeriesShapesVisible(i, false);
+            renderer.setSeriesVisible(i, false);
+            renderer.setSeriesItemLabelsVisible(i, false);
         }
         plot.setDomainPannable(true);
         plot.setRangePannable(true);
@@ -154,6 +166,7 @@ public class aq_dados_gui extends javax.swing.JFrame
         JMenuItem sensorsMenuItem = new JMenuItem("Sensores");
         JMenuItem connectMenuItem = new JMenuItem("Conectar");
         JMenuItem disconnectMenuItem = new JMenuItem("Desconectar");
+        JMenuItem folderSelect = new JMenuItem("Salvar em:");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bancada para Controle de Fluxo de Calor");
@@ -162,6 +175,7 @@ public class aq_dados_gui extends javax.swing.JFrame
         menuBar.add(menuSettings);
         menuSettings.add(connectMenuItem);
         menuSettings.add(disconnectMenuItem);
+        menuSettings.add(folderSelect);
         menuSettings.add(initializeMenu);
         initializeMenu.add(serialMenuItem);
         initializeMenu.add(sensorsMenuItem);
@@ -183,6 +197,7 @@ public class aq_dados_gui extends javax.swing.JFrame
         disconnectMenuItem.putClientProperty("connect", connectMenuItem);
         disconnectMenuItem.addActionListener(this::btn_desconectarActionPerformed);
         disconnectMenuItem.setEnabled(false);
+        folderSelect.addActionListener(this::btn_folder_selectActionPerformed);
 
         cmbbox_ports.setModel(new DefaultComboBoxModel());
         cmbbox_ports.addActionListener(this::cmbbox_portsActionPerformed);
@@ -264,6 +279,17 @@ public class aq_dados_gui extends javax.swing.JFrame
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_folder_selectActionPerformed(ActionEvent actionEvent) {
+        chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.home")));
+        chooser.setDialogTitle("Selecione pasta onde será salvo os logs");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            path = chooser.getSelectedFile().toString();
+        }
+    }
 
     private void openSensorFrame(String name, String id, String value, DefaultTableModel model, JTable table)
     {
@@ -570,6 +596,8 @@ public class aq_dados_gui extends javax.swing.JFrame
             ScriptEngineManager mgr = new ScriptEngineManager();
             ScriptEngine engine = mgr.getEngineByName("JavaScript");
             Integer lastIndex = -1;
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+            StringBuilder stringSensorLabel = new StringBuilder();
             for (String id : sensorsConfiguration.keySet()) {
                 String[] getIndex = id.split("s");
                 Integer index = Integer.valueOf(getIndex[1]);
@@ -581,6 +609,7 @@ public class aq_dados_gui extends javax.swing.JFrame
                 if (index > lastIndex) {
                     lastIndex = index;
                 }
+                stringSensorLabel.append((stringSensorLabel.length() == 0) ? name : ";" + name);
             }
             for (int i = lastIndex+1; i < 10; i++) {
                 checkBoxList.get(i).setVisible(false);
@@ -588,12 +617,22 @@ public class aq_dados_gui extends javax.swing.JFrame
                 checkBoxList.get(i).setText("");
             }
             Scanner scanner = new Scanner(port.getInputStream());
+            try {
+                String realPath = "";
+                if (!path.isEmpty()) {
+                    realPath = path + File.separator;
+                }
+                Files.write(Paths.get(realPath + timeStamp + "_sensor_reading.txt"), Arrays.asList(stringSensorLabel.toString()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             while(scanner.hasNext()) {
                 try {
                     String line = scanner.nextLine();
                     try{
                         String[] reads = line.split(";");
                         HashMap<Integer, List> seriesMap = new HashMap<Integer, List>();
+                        StringBuilder stringParsedValue = new StringBuilder();
                         for (int i = 0; i < reads.length; i++) {
                             Double rawValue = Double.valueOf(reads[i]);
                             String expression = "0.0";
@@ -615,6 +654,16 @@ public class aq_dados_gui extends javax.swing.JFrame
                             seriesList.add(rawValue);
                             seriesList.add(parsedValue);
                             seriesMap.put(i, seriesList);
+                            stringParsedValue.append((stringParsedValue.length() == 0) ? parsedValue.toString() : ";" + parsedValue.toString());
+                        }
+                        try {
+                            String realPath = "";
+                            if (!path.isEmpty()) {
+                                realPath = path + File.separator;
+                            }
+                            Files.write(Paths.get(realPath + timeStamp + "_sensor_reading.txt"), Arrays.asList(stringParsedValue.toString()), StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                         for (Integer index : seriesMap.keySet()) {
                             List list = seriesMap.get(index);
