@@ -4,9 +4,13 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.NumberTickUnitSource;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.StandardXYSeriesLabelGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -32,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.jfree.chart.axis.Axis;
 
 public class aq_dados_gui extends javax.swing.JFrame
 {
@@ -114,6 +119,9 @@ public class aq_dados_gui extends javax.swing.JFrame
     private JTextField txt_field_sensor_min_9 = new JTextField();
     private JTextField txt_field_sensor_avg_9 = new JTextField();
 
+    public static XYPlot plot;
+    public static NumberAxis axis;
+
     /**
      * Creates new form aq
      */
@@ -144,7 +152,7 @@ public class aq_dados_gui extends javax.swing.JFrame
             cmbbox_ports.addItem(ports_names[i].getSystemPortName());
         }
         JFreeChart chart = ChartFactory.createXYLineChart("Bancada Fluxo de Calor","Nº de Amostras", "Temperatura ºC", dataset, PlotOrientation.VERTICAL,true,true,false);
-        XYPlot plot = chart.getXYPlot();
+        plot = chart.getXYPlot();
         renderer.setSeriesPaint( 0 , Color.RED );
         renderer.setSeriesPaint( 1 , Color.BLACK );
         renderer.setSeriesPaint( 2 , Color.BLUE );
@@ -166,9 +174,12 @@ public class aq_dados_gui extends javax.swing.JFrame
         plot.setDomainCrosshairVisible(true);
         plot.setRangeCrosshairVisible(true);
         plot.setRenderer(renderer);
-        NumberAxis axis = (NumberAxis) plot.getDomainAxis();
-        axis.setFixedAutoRange(60);
-        axis.setTickUnit(new NumberTickUnit(20));
+        axis = (NumberAxis) plot.getDomainAxis();
+        //axis.setFixedAutoRange(60);
+
+        axis.setTickUnit(new NumberTickUnit(150));
+
+
         jPanel_chart.add(new ChartPanel(chart));
         jPanel_chart.repaint();
         jPanel_chart.setVisible(true);
@@ -540,7 +551,7 @@ public class aq_dados_gui extends javax.swing.JFrame
             )
         );
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>
 
     private void btn_folder_selectActionPerformed(ActionEvent actionEvent) {
         chooser = new JFileChooser();
@@ -811,6 +822,7 @@ public class aq_dados_gui extends javax.swing.JFrame
             new Thread(() -> {
                 try {
                     Thread.sleep(1000);
+                    axis.setTickUnit(new NumberTickUnit(frequency*15));
                     clearChart();
                 }
                 catch (Exception e){
