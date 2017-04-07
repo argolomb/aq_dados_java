@@ -4,13 +4,9 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.chart.axis.NumberTickUnitSource;
-import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.labels.StandardXYSeriesLabelGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -73,6 +69,50 @@ public class aq_dados_gui extends javax.swing.JFrame
     private Map<String, List> sensorsConfiguration = new HashMap<String, List>();
     private String path = "";
     private JFileChooser chooser;
+    private HashMap<Integer, JTextField> map_sensor_max = new HashMap<>();
+    private HashMap<Integer, JTextField> map_sensor_min = new HashMap<>();
+    private HashMap<Integer, JTextField> map_sensor_avg = new HashMap<>();
+    private HashMap<Integer, JLabel> map_sensor_label = new HashMap<>();
+    private JTextField txt_field_sensor_max_0 = new JTextField();
+    private JLabel label_sensor_0 = new JLabel();
+    private JTextField txt_field_sensor_min_0 = new JTextField();
+    private JTextField txt_field_sensor_avg_0 = new JTextField();
+    private JTextField txt_field_sensor_max_1 = new JTextField();
+    private JLabel label_sensor_1 = new JLabel();
+    private JTextField txt_field_sensor_min_1 = new JTextField();
+    private JTextField txt_field_sensor_avg_1 = new JTextField();
+    private JTextField txt_field_sensor_max_2 = new JTextField();
+    private JLabel label_sensor_2 = new JLabel();
+    private JTextField txt_field_sensor_min_2 = new JTextField();
+    private JTextField txt_field_sensor_avg_2 = new JTextField();
+    private JTextField txt_field_sensor_max_3 = new JTextField();
+    private JLabel label_sensor_3 = new JLabel();
+    private JTextField txt_field_sensor_min_3 = new JTextField();
+    private JTextField txt_field_sensor_avg_3 = new JTextField();
+    private JTextField txt_field_sensor_max_4 = new JTextField();
+    private JLabel label_sensor_4 = new JLabel();
+    private JTextField txt_field_sensor_min_4 = new JTextField();
+    private JTextField txt_field_sensor_avg_4 = new JTextField();
+    private JTextField txt_field_sensor_max_5 = new JTextField();
+    private JLabel label_sensor_5 = new JLabel();
+    private JTextField txt_field_sensor_min_5 = new JTextField();
+    private JTextField txt_field_sensor_avg_5 = new JTextField();
+    private JTextField txt_field_sensor_max_6 = new JTextField();
+    private JLabel label_sensor_6 = new JLabel();
+    private JTextField txt_field_sensor_min_6 = new JTextField();
+    private JTextField txt_field_sensor_avg_6 = new JTextField();
+    private JTextField txt_field_sensor_max_7 = new JTextField();
+    private JLabel label_sensor_7 = new JLabel();
+    private JTextField txt_field_sensor_min_7 = new JTextField();
+    private JTextField txt_field_sensor_avg_7 = new JTextField();
+    private JTextField txt_field_sensor_max_8 = new JTextField();
+    private JLabel label_sensor_8 = new JLabel();
+    private JTextField txt_field_sensor_min_8 = new JTextField();
+    private JTextField txt_field_sensor_avg_8 = new JTextField();
+    private JTextField txt_field_sensor_max_9 = new JTextField();
+    private JLabel label_sensor_9 = new JLabel();
+    private JTextField txt_field_sensor_min_9 = new JTextField();
+    private JTextField txt_field_sensor_avg_9 = new JTextField();
 
     /**
      * Creates new form aq
@@ -155,6 +195,58 @@ public class aq_dados_gui extends javax.swing.JFrame
             chbox.setEnabled(false);
             chbox.setVisible(false);
         }
+        map_sensor_label.put(0, label_sensor_0);
+        map_sensor_label.put(1, label_sensor_1);
+        map_sensor_label.put(2, label_sensor_2);
+        map_sensor_label.put(3, label_sensor_3);
+        map_sensor_label.put(4, label_sensor_4);
+        map_sensor_label.put(5, label_sensor_5);
+        map_sensor_label.put(6, label_sensor_6);
+        map_sensor_label.put(7, label_sensor_7);
+        map_sensor_label.put(8, label_sensor_8);
+        map_sensor_label.put(9, label_sensor_9);
+        map_sensor_max.put(0, txt_field_sensor_max_0);
+        map_sensor_min.put(0, txt_field_sensor_min_0);
+        map_sensor_avg.put(0, txt_field_sensor_avg_0);
+        map_sensor_max.put(1, txt_field_sensor_max_1);
+        map_sensor_min.put(1, txt_field_sensor_min_1);
+        map_sensor_avg.put(1, txt_field_sensor_avg_1);
+        map_sensor_max.put(2, txt_field_sensor_max_2);
+        map_sensor_min.put(2, txt_field_sensor_min_2);
+        map_sensor_avg.put(2, txt_field_sensor_avg_2);
+        map_sensor_max.put(3, txt_field_sensor_max_3);
+        map_sensor_min.put(3, txt_field_sensor_min_3);
+        map_sensor_avg.put(3, txt_field_sensor_avg_3);
+        map_sensor_max.put(4, txt_field_sensor_max_4);
+        map_sensor_min.put(4, txt_field_sensor_min_4);
+        map_sensor_avg.put(4, txt_field_sensor_avg_4);
+        map_sensor_max.put(5, txt_field_sensor_max_5);
+        map_sensor_min.put(5, txt_field_sensor_min_5);
+        map_sensor_avg.put(5, txt_field_sensor_avg_5);
+        map_sensor_max.put(6, txt_field_sensor_max_6);
+        map_sensor_min.put(6, txt_field_sensor_min_6);
+        map_sensor_avg.put(6, txt_field_sensor_avg_6);
+        map_sensor_max.put(7, txt_field_sensor_max_7);
+        map_sensor_min.put(7, txt_field_sensor_min_7);
+        map_sensor_avg.put(7, txt_field_sensor_avg_7);
+        map_sensor_max.put(8, txt_field_sensor_max_8);
+        map_sensor_min.put(8, txt_field_sensor_min_8);
+        map_sensor_avg.put(8, txt_field_sensor_avg_8);
+        map_sensor_max.put(9, txt_field_sensor_max_9);
+        map_sensor_min.put(9, txt_field_sensor_min_9);
+        map_sensor_avg.put(9, txt_field_sensor_avg_9);
+        for (int i = 0; i < 10; i++) {
+            map_sensor_max.get(i).setVisible(false);
+            map_sensor_max.get(i).setEnabled(false);
+            map_sensor_min.get(i).setVisible(false);
+            map_sensor_min.get(i).setEnabled(false);
+            map_sensor_avg.get(i).setVisible(false);
+            map_sensor_avg.get(i).setEnabled(false);
+        }
+        for (JCheckBox chbox : checkBoxList) {
+            chbox.setEnabled(false);
+            chbox.setVisible(false);
+        }
         JLabel jLabel1 = new JLabel();
         JLabel jLabel2 = new JLabel();
         JLabel jLabel3 = new JLabel();
@@ -215,6 +307,12 @@ public class aq_dados_gui extends javax.swing.JFrame
         jLabel2.setText("Selecionar Baudrate");
         jLabel3.setText("Exibir no Gráfico:");
         jLabel4.setText("Frequência (Hz):");
+        JLabel labelmax = new JLabel();
+        JLabel labelmin = new JLabel();
+        JLabel labelmoan = new JLabel();
+        labelmax.setText("max");
+        labelmin.setText("min");
+        labelmoan.setText("média");
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -242,7 +340,86 @@ public class aq_dados_gui extends javax.swing.JFrame
                         )
                         .addGap(18, 18, 18)
                         .addComponent(jPanel_chart, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(28, 28, 28))))
+                        .addGap(28, 28, 28)
+
+                    )
+
+                )
+
+            )
+                    .addGroup(layout.createSequentialGroup()
+//                            .addGap(180, 180, 180)
+                            .addContainerGap(150, 150)
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(labelmax, 181, 181, 181)
+                                            .addComponent(labelmin, 181, 181, 181)
+                                            .addComponent(labelmoan, 181, 181, 181)
+                                    )
+                    )
+                    .addGroup(layout.createSequentialGroup()
+//                            .addGap(18, 18, 18)
+                            .addContainerGap(210, 210)
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(label_sensor_0, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_max_0, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_min_0, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_avg_0, 130, 130, 130)
+                                    )
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(label_sensor_1, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_max_1, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_min_1, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_avg_1, 130, 130, 130)
+                                    )
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(label_sensor_2, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_max_2, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_min_2, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_avg_2, 130, 130, 130)
+                                    )
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(label_sensor_3, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_max_3, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_min_3, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_avg_3, 130, 130, 130)
+                                    )
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(label_sensor_4, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_max_4, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_min_4, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_avg_4, 130, 130, 130)
+                                    )
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(label_sensor_5, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_max_5, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_min_5, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_avg_5, 130, 130, 130)
+                                    )
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(label_sensor_6, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_max_6, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_min_6, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_avg_6, 130, 130, 130)
+                                    )
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(label_sensor_7, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_max_7, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_min_7, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_avg_7, 130, 130, 130)
+                                    )
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(label_sensor_8, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_max_8, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_min_8, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_avg_8, 130, 130, 130)
+                                    )
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(label_sensor_9, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_max_9, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_min_9, 130, 130, 130)
+                                            .addComponent(txt_field_sensor_avg_9, 130, 130, 130)
+                                    )
+                    )
         );
 
         layout.setVerticalGroup(
@@ -274,8 +451,93 @@ public class aq_dados_gui extends javax.swing.JFrame
                         .addComponent(chkbox_sensor8)
                         .addComponent(chkbox_sensor9)
 
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(84, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                    )
+
+                )
+                        .addGroup(layout.createParallelGroup()
+                            .addGroup(layout.createSequentialGroup()
+                                    .addGap(20,20,20)
+                                    .addPreferredGap(ComponentPlacement.RELATED)
+                                            .addComponent(labelmax, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addGap(5,5,5)
+                                            .addComponent(labelmin, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addGap(5,5,5)
+                                            .addComponent(labelmoan, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            )
+                            .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(ComponentPlacement.RELATED)
+                                            .addComponent(label_sensor_0, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_field_sensor_max_0, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_field_sensor_min_0, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_field_sensor_avg_0, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            )
+                            .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(ComponentPlacement.RELATED)
+                                    .addComponent(label_sensor_1, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_max_1, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_min_1, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_avg_1, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            )
+                            .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(ComponentPlacement.RELATED)
+                                    .addComponent(label_sensor_2, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_max_2, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_min_2, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_avg_2, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            )
+                            .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(ComponentPlacement.RELATED)
+                                    .addComponent(label_sensor_3, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_max_3, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_min_3, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_avg_3, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            )
+                            .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(ComponentPlacement.RELATED)
+                                    .addComponent(label_sensor_4, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_max_4, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_min_4, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_avg_4, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            )
+                            .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(ComponentPlacement.RELATED)
+                                    .addComponent(label_sensor_5, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_max_5, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_min_5, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_avg_5, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            )
+                            .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(ComponentPlacement.RELATED)
+                                    .addComponent(label_sensor_6, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_max_6, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_min_6, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_avg_6, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            )
+                            .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(ComponentPlacement.RELATED)
+                                    .addComponent(label_sensor_7, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_max_7, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_min_7, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_avg_7, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            )
+                            .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(ComponentPlacement.RELATED)
+                                    .addComponent(label_sensor_8, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_max_8, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_min_8, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_avg_8, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            )
+                            .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(ComponentPlacement.RELATED)
+                                    .addComponent(label_sensor_9, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_max_9, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_min_9, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_field_sensor_avg_9, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            )
+                        )
+                .addContainerGap(84, Short.MAX_VALUE)
+            )
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -603,6 +865,11 @@ public class aq_dados_gui extends javax.swing.JFrame
                 Integer index = Integer.valueOf(getIndex[1]);
                 List list = sensorsConfiguration.get(id);
                 String name = (String)list.get(0);
+                map_sensor_label.get(index).setText(name);
+                map_sensor_label.get(index).setVisible(true);
+                map_sensor_max.get(index).setVisible(true);
+                map_sensor_min.get(index).setVisible(true);
+                map_sensor_avg.get(index).setVisible(true);
                 checkBoxList.get(index).setVisible(true);
                 checkBoxList.get(index).setEnabled(true);
                 checkBoxList.get(index).setText(name);
@@ -626,9 +893,21 @@ public class aq_dados_gui extends javax.swing.JFrame
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            HashMap <Integer, Double> map_sums = new HashMap<>();
+            for (int i = 0; i <10; i++) {
+                map_sums.put(i, 0.0);
+                map_sensor_avg.get(i).setText("");
+                map_sensor_max.get(i).setText("");
+                map_sensor_min.get(i).setText("");
+            }
+            int firstReading = 0;
             while(scanner.hasNext()) {
                 try {
                     String line = scanner.nextLine();
+                    if (firstReading < 2) {
+                        firstReading++;
+                        continue;
+                    }
                     try{
                         String[] reads = line.split(";");
                         HashMap<Integer, List> seriesMap = new HashMap<Integer, List>();
@@ -655,6 +934,27 @@ public class aq_dados_gui extends javax.swing.JFrame
                             seriesList.add(parsedValue);
                             seriesMap.put(i, seriesList);
                             stringParsedValue.append((stringParsedValue.length() == 0) ? parsedValue.toString() : ";" + parsedValue.toString());
+                            map_sums.put(i, map_sums.get(i) + parsedValue);
+                            Double moan = map_sums.get(i)/(x+1);
+                            Double lastMax;
+                            if (map_sensor_max.get(i).getText().isEmpty()) {
+                                lastMax = parsedValue;
+                            } else {
+                                lastMax = Double.valueOf(map_sensor_max.get(i).getText());
+                            }
+                            Double lastMin;
+                            if (map_sensor_min.get(i).getText().isEmpty()) {
+                                lastMin = parsedValue;
+                            } else {
+                                lastMin = Double.valueOf(map_sensor_min.get(i).getText());
+                            }
+                            if (parsedValue >= lastMax) {
+                                map_sensor_max.get(i).setText(parsedValue.toString());
+                            }
+                            if (parsedValue <= lastMin) {
+                                map_sensor_min.get(i).setText(parsedValue.toString());
+                            }
+                            map_sensor_avg.get(i).setText(moan.toString());
                         }
                         try {
                             String realPath = "";
